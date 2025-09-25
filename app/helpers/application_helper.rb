@@ -6,27 +6,23 @@ module ApplicationHelper
     rank_order_show = ''
     if current_sort_by != column_name
       direction = "asc"
-      rank_order_show = '-'
+      # rank_order_show = '-'
     else
       if current_direction == "asc"
         direction = "desc"
-        rank_order_show = '▲'
+        rank_order_show = ' ▲'
       elsif current_direction == "desc"
         direction = nil
-        rank_order_show = '▼'
+        rank_order_show = ' ▼'
       else
         direction = "asc"
-        rank_order_show = '-'
+        # rank_order_show = '-'
       end
     end
-    # direction = (current_sort_by == column_name && current_direction == "asc") ? "desc" : "asc"
     
-    # 添加一个CSS class，用于标识当前排序列
     css_class = (current_sort_by == column_name) ? "current #{current_direction}" : nil
 
     
-    link_to (display_text+' '+ rank_order_show), movies_path(sort_by: column_name, direction: direction), { class: css_class }
-    # 生成最终的链接
-    # link_to (display_text+' '+ rank_order_show), movies_path(sort_by: column_name, direction: direction), { class: css_class }
+    link_to (display_text+  rank_order_show), movies_path(sort_by: column_name, direction: direction), { class: css_class }
   end
 end

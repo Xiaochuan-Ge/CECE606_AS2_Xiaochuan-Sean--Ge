@@ -1,37 +1,42 @@
-<h1>All Movies</h1>
+<div class="movies-container">
+  <h1>All Movies (Sean Ge, 937006752)</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th><%= sortable("title", "Title") %></th>
-      <th><%= sortable("rating", "Rating") %></th>
-      <th><%= sortable("release_date", "Release Date") %></th>
-      <th colspan="3">Actions</th>
-    </tr>
-  </thead>
+  <% sorted_by = params[:sort_by] || session[:sort_by] %>
+  <% direction = params[:direction] || session[:direction] %>
 
-  <tbody>
-    <% @movies.each do |movie| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= movie.title %></td>
-        <td><%= movie.rating %></td>
-        <td><%= movie.release_date %></td>
-        <td><%= link_to 'Show', movie %></td>
-        <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
-        <td><%= link_to 'Delete', movie_path(movie), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %></td>
+        <th><%= sortable("title", "Title") %></th>
+        <th><%= sortable("rating", "Rating") %></th>
+        <th><%= sortable("release_date", "Release Date") %></th>
+        <th colspan="3">Actions</th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
 
-  <tfoot>
-    <tr>
-      <td colspan="6">
-        Total Movies: <%= @movies.count %>
-      </td>
-    </tr>
-  </tfoot>
-</table>
+    <tbody>
+      <% @movies.each do |movie| %>
+        <% sorted_class = "sorted-column-#{direction}" %>
+        <tr>
+          <td class="<%= sorted_class if sorted_by == 'title' %>"><%= movie.title %></td>
+          <td class="<%= sorted_class if sorted_by == 'rating' %>"><%= movie.rating %></td>
+          <td class="<%= sorted_class if sorted_by == 'release_date' %>"><%= movie.release_date&.strftime('%b %d, %Y') %></td>
+          <td class="actions"><%= link_to 'Show', movie, class: 'button' %></td>
+          <td class="actions"><%= link_to 'Edit', edit_movie_path(movie), class: 'button' %></td>
+          <td class="actions"><%= button_to 'Delete', movie_path(movie), method: :delete, class: 'button-danger' %></td>
+        </tr>
+      <% end %>
+    </tbody>
 
-<br>
+    <tfoot>
+      <tr>
+        <td colspan="6">
+          Total Movies: <%= @movies.count %>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 
-<%= link_to 'Add new movie', new_movie_path %>
+  <%= link_to 'Add new movie', new_movie_path, class: 'button' %>
+</div>
+

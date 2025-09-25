@@ -2,9 +2,6 @@ class MoviesController < ApplicationController
   before_action :set_movie, only: %i[ show edit update destroy ]
 
   # GET /movies or /movies.json
-  # def index
-  #   @movies = Movie.all
-  # end
   def index
     @movies = Movie.all
     sort_by = params[:sort_by]
@@ -18,7 +15,6 @@ class MoviesController < ApplicationController
     end
     
     if direction != nil
-      # direction = params[:direction] || 'asc'
       @movies = @movies.sorted_by(sort_by, direction)
     else
       @movies
@@ -71,7 +67,7 @@ class MoviesController < ApplicationController
     @movie.destroy!
 
     respond_to do |format|
-      format.html { redirect_to movies_path, notice: "Movie was successfully destroyed.", status: :see_other }
+      format.html { redirect_to movies_path, status: :see_other }
       format.json { head :no_content }
     end
   end
